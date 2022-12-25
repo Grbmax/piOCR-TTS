@@ -73,9 +73,12 @@ if bd > args["thresh"] :
     if (args["window"] == False) :
         #No Window Output
         t = pytesseract.image_to_string(img_src)
-        print("Source Image: ",t)
-        speak(t)
 
-        t = pytesseract.image_to_string(gray)
-        print("Grayscale Image: ",t)
-        speak(t)
+        if t and t.strip() != "":
+            print("Source Image: ",t)
+            speak(t)
+
+            print("Grayscale Image: ",t)
+            speak(t)
+        else : 
+            print("Nothing Detected")
