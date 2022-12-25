@@ -3,8 +3,9 @@ import pytesseract
 import numpy as np
 from pytesseract import Output
 from gtts import gTTS
+from time import sleep
 import os
-import playsound
+import pyglet
 import argparse
 
 ap = argparse.ArgumentParser()
@@ -36,7 +37,9 @@ def speak(text):
     tts = gTTS(text=text, lang='en')
     filename = "img_op.mp3"
     tts.save(filename)
-    playsound.playsound(filename)
+    music = pyglet.media.load(filename, streaming=False)
+    music.play()
+    sleep(music.duration) #prevent from killing
     os.remove(filename)
 
 gray = get_gray(img_src)

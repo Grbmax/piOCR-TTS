@@ -3,6 +3,4 @@ pillow
 pytesseract
 imutils
 gTTS
-playsound
-pygobject
-PyObjC
+pyglet
