@@ -13,7 +13,6 @@ ap.add_argument("-w", "--window", type=bool, default=False, help="Show output wi
 ap.add_argument("-i", "--images", required=True, help="Path to image to be detected")
 ap.add_argument("-t", "--thresh", type=int, default=100, help="Focus measures that fall below this value will be considered 'blurry'")
 args = vars(ap.parse_args())
-print(args)
 
 img_src = cv2.imread(args["images"])
 
@@ -71,12 +70,12 @@ if bd > args["thresh"] :
                         img = cv2.putText(img, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
                 cv2.imshow('img', img)
                 cv2.waitKey(0)
-        if (args["window"] == False) :
-            #No Window Output
-            t = pytesseract.image_to_string(img)
-            print("Source Image: ",t)
-            speak(t)
+    if (args["window"] == False) :
+        #No Window Output
+        t = pytesseract.image_to_string(img)
+        print("Source Image: ",t)
+        speak(t)
 
-            t = pytesseract.image_to_string(gray)
-            print("Grayscale Image: ",t)
-            speak(t)
+        t = pytesseract.image_to_string(gray)
+        print("Grayscale Image: ",t)
+        speak(t)
