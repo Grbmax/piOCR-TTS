@@ -82,3 +82,4 @@ if bd > args["thresh"] :
             speak(t)
         else : 
             print("Nothing Detected")
+            speak("Nothing Detected")
