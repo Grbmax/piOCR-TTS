@@ -5,7 +5,7 @@ Optical Character Recognition & Text to Speech with Blur Detection on Raspberry-
 ```
 sudo apt install tesseract-ocr gstreamer-1.0
 ```
-2. 2. Install Python dependencies
+2. Install Python dependencies
 ```
 pip3 install -r requirements.txt
 ```
