@@ -1,7 +1,7 @@
 import cv2 
 import pytesseract
 import numpy as np
-# from pytesseract import Output
+from pytesseract import Output
 from gtts import gTTS
 import os
 import playsound

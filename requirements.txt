@@ -5,3 +5,4 @@ imutils
 gTTS
 playsound
 pygobject
+PyObjC
