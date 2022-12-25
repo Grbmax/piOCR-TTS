@@ -1,4 +1,4 @@
-# piOCR-TTS
+# rpi-OCR-TTS
 Optical Character Recognition & Text to Speech with Blur Detection on Raspberry-Pi
 
 1. Install Tesseract-OCR and gstreamer for pyglet
