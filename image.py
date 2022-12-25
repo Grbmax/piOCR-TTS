@@ -72,7 +72,7 @@ if bd > args["thresh"] :
                 cv2.waitKey(0)
     if (args["window"] == False) :
         #No Window Output
-        t = pytesseract.image_to_string(img)
+        t = pytesseract.image_to_string(img_src)
         print("Source Image: ",t)
         speak(t)
 
