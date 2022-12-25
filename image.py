@@ -1,7 +1,7 @@
 import cv2 
 import pytesseract
 import numpy as np
-from pytesseract import Output
+# from pytesseract import Output
 from gtts import gTTS
 import os
 import playsound
@@ -11,7 +11,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-w", "--window", type=bool, default=False, help="Show output window of OpenCv")
 ap.add_argument("-i", "--images", required=True, help="Path to image to be detected")
 ap.add_argument("-t", "--thresh", type=int, default=100, help="Focus measures that fall below this value will be considered 'blurry'")
-args = vars(ap.parse_args)
+args = vars(ap.parse_args())
+print(args)
 
 img_src = cv2.imread(args["images"])
 

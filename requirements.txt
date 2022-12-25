@@ -4,3 +4,4 @@ pytesseract
 imutils
 gTTS
 playsound
+pygobject
