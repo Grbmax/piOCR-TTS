@@ -52,15 +52,13 @@ if bd < args["thresh"]:
     print("Image too blurry, try again")
     speak('Image too blurry, try again')
 
-if bd < args["thresh"] :    
+if bd > args["thresh"] :    
      #Bounding Box Output
     if (args["window"] == True) :
         for img in [img_src, gray, thresh, opening, canny]:
             d = pytesseract.image_to_data(img, output_type=Output.DICT)
             n_boxes = len(d['text'])
-        
-        
-                    #Convert to RGB from Grayscale
+            #Convert to RGB from Grayscale
             if len(img.shape) == 2:
                         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
                     
@@ -68,16 +66,17 @@ if bd < args["thresh"] :
                 if int(d['conf'][i]) > 60:
                     (text, x, y, w, h) = (d['text'][i],d['left'][i], d['top'][i], d['width'][i], d['height'][i])
                     # don't show empty text
-                    if text and text.strip() != "":
+                if text and text.strip() != "":
                         img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
                         img = cv2.putText(img, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
                 cv2.imshow('img', img)
                 cv2.waitKey(0)
-        #No Window Outputt
-        t = pytesseract.image_to_string(img)
-        print("Source Image: ",t)
-        speak(t)
+        if (args["window"] == False) :
+            #No Window Output
+            t = pytesseract.image_to_string(img)
+            print("Source Image: ",t)
+            speak(t)
 
-        t = pytesseract.image_to_string(gray)
-        print("Grayscale Image: ",t)
-        speak(t)
+            t = pytesseract.image_to_string(gray)
+            print("Grayscale Image: ",t)
+            speak(t)
