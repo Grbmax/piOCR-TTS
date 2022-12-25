@@ -71,15 +71,42 @@ if bd > args["thresh"] :
                 cv2.imshow('img', img)
                 cv2.waitKey(0)
     if (args["window"] == False) :
-        #No Window Output
+        #Source Image
         t = pytesseract.image_to_string(img_src)
-
         if t and t.strip() != "":
             print("Source Image: ",t)
             speak(t)
-
+        else : 
+            print("Nothing Detected in Source Image")
+        
+        #Grayscale
+        t = pytesseract.image_to_string(gray)
+        if t and t.strip() != "":
             print("Grayscale Image: ",t)
             speak(t)
         else : 
-            print("Nothing Detected")
-            speak("Nothing Detected")
+            print("Nothing Detected in Grayscale Image")
+        
+        #Thresholding
+        t = pytesseract.image_to_string(thresh)
+        if t and t.strip() != "":
+            print("Thresholded Image: ",t)
+            speak(t)
+        else : 
+            print("Nothing Detected in Thresholded Image")
+        
+        #Morphed
+        t = pytesseract.image_to_string(opening)
+        if t and t.strip() != "":
+            print("Morphed Image: ",t)
+            speak(t)
+        else : 
+            print("Nothing Detected in Morphed Image")
+        
+        #Canny
+        t = pytesseract.image_to_string(opening)
+        if t and t.strip() != "":
+            print("Morphed Image: ",t)
+            speak(t)
+        else : 
+            print("Nothing Detected in Canny Image")
