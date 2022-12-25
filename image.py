@@ -65,8 +65,8 @@ if bd < args["thresh"] :
                     (text, x, y, w, h) = (d['text'][i],d['left'][i], d['top'][i], d['width'][i], d['height'][i])
                     # don't show empty text
                     if text and text.strip() != "":
-                    img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                    img = cv2.putText(img, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
+                        img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                        img = cv2.putText(img, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
                 cv2.imshow('img', img)
                 cv2.waitKey(0)
         #No Window Outputt
