@@ -1,7 +1,6 @@
 import cv2
 import pytesseract
 import numpy as np
-from pytesseract import Output
 import multiprocessing as mp
 from gtts import gTTS
 import os
@@ -10,9 +9,6 @@ import threading
 
 def get_gray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-def blur_detect(image):
-    return cv2.Laplacian(image, cv2.CV_64F).var()
 
 def speak(text):
     tts = gTTS(text=text, lang='en')
@@ -23,17 +19,12 @@ def speak(text):
     os.remove(filename)
 
 def process_image(gray):
-    bd = blur_detect(gray)
-    if bd < 100:
-        print("Image too blurry, try again")
-        speak('Image too blurry, try again')
-    else:
-        t = pytesseract.image_to_string(gray)
-        if t and t.strip() != "":
-            print("Grayscale Image: ",t)
-            speak(t)
-        else: 
-            print("Nothing Detected in Grayscale Image")
+    t = pytesseract.image_to_string(gray)
+    if t and t.strip() != "":
+        print("Grayscale Image: ",t)
+        speak(t)
+    else: 
+        print("Nothing Detected in Grayscale Image")
 
 def run_detection(q):
     cap = cv2.VideoCapture(0)
@@ -60,3 +51,4 @@ if __name__ == '__main__':
     t2.start()
     t1.join()
     t2.join()
+
