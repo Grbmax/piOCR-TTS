@@ -19,7 +19,7 @@ def speak(text):
     tts.save(filename)
     music = pyglet.media.load(filename, streaming=False)
     music.play()
-    sleep(music.duration) #prevent from killing
+    time.sleep(music.duration) #prevent from killing
     os.remove(filename)
 
 def process_image(gray):
