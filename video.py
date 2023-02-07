@@ -6,6 +6,7 @@ import multiprocessing as mp
 from gtts import gTTS
 import os
 import pyglet
+import time 
 
 def get_gray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
