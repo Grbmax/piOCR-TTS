@@ -36,35 +36,28 @@ def speak(text):
 
 while True:
     ret, frame = cap.read()
+    if not ret:
+        break
+        
+    frame = cv2.resize(frame, (640, 480))  # Reduce frame size
     gray = get_gray(frame)
     bd = blur_detect(gray)
-    # thresh = thresholding(gray)
-    # opening = opening(gray)
-    # canny = canny(gray)
     
     if bd < 100:
         print("Image too blurry, try again")
         speak('Image too blurry, try again')
+        continue
     
-    while bd > 100:
-        t = pytesseract.image_to_string(gray) #You can use other images here which are being processed, eg. opening, canny, etc, based on your requirements.
-        if t and t.strip() != "":
-            print("Grayscale Image: ",t)
-            speak(t)
-        else : 
-            print("Nothing Detected in Grayscale Image")
+    t = pytesseract.image_to_string(gray)
+    if t and t.strip() != "":
+        print("Grayscale Image: ", t)
+        speak(t)
+    else : 
+        print("Nothing Detected in Grayscale Image")
         
-        ret, frame = cap.read()
-        gray = get_gray(frame)
-        bd = blur_detect(gray)
-        thresh = thresholding(gray)
-        opening = opening(gray)
-        canny = canny(gray)
-
     cv2.imshow('frame', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'): #Press q to exit loop
         break
 
 cap.release()
 cv2.destroyAllWindows()
-
