@@ -19,9 +19,12 @@ def speak(text):
     filename = "img_op.mp3"
     tts.save(filename)
     music = pyglet.media.load(filename, streaming=False)
-    music.play()
-    time.sleep(music.duration) #prevent from killing
+    player = pyglet.media.Player()
+    player.queue(music)
+    player.play()
+    pyglet.app.run()
     os.remove(filename)
+
 
 def process_image(gray):
     bd = blur_detect(gray)
