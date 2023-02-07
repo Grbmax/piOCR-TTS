@@ -38,9 +38,9 @@ while True:
     ret, frame = cap.read()
     gray = get_gray(frame)
     bd = blur_detect(gray)
-    thresh = thresholding(gray)
-    opening = opening(gray)
-    canny = canny(gray)
+    #thresh = thresholding(gray)
+    #opening = opening(gray)
+    #canny = canny(gray)
 
     if bd < 100:
         print("Image too blurry, try again")
