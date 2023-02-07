@@ -2,25 +2,13 @@ import cv2
 import pytesseract
 import numpy as np
 from pytesseract import Output
+import multiprocessing as mp
 from gtts import gTTS
-from time import sleep
 import os
 import pyglet
 
-cap = cv2.VideoCapture(0)
-
 def get_gray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-def thresholding(image):
-    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-
-def opening(image):
-    kernel = np.ones((5,5), np.uint8)
-    return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
-
-def canny(image):
-    return cv2.Canny(image, 100, 200)
 
 def blur_detect(image):
     return cv2.Laplacian(image, cv2.CV_64F).var()
@@ -34,30 +22,34 @@ def speak(text):
     sleep(music.duration) #prevent from killing
     os.remove(filename)
 
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
-        
-    frame = cv2.resize(frame, (640, 480))  # Reduce frame size
-    gray = get_gray(frame)
+def process_image(gray):
     bd = blur_detect(gray)
-    
     if bd < 100:
         print("Image too blurry, try again")
         speak('Image too blurry, try again')
-        continue
-    
-    t = pytesseract.image_to_string(gray)
-    if t and t.strip() != "":
-        print("Grayscale Image: ", t)
-        speak(t)
-    else : 
-        print("Nothing Detected in Grayscale Image")
-        
-    cv2.imshow('frame', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'): #Press q to exit loop
-        break
+    else:
+        t = pytesseract.image_to_string(gray)
+        if t and t.strip() != "":
+            print("Grayscale Image: ",t)
+            speak(t)
+        else: 
+            print("Nothing Detected in Grayscale Image")
 
-cap.release()
-cv2.destroyAllWindows()
+def run_detection(q):
+    cap = cv2.VideoCapture(0)
+    while True:
+        ret, frame = cap.read()
+        gray = get_gray(frame)
+        q.put(gray)
+        if cv2.waitKey(1) & 0xFF == ord('q'): #Press q to exit loop
+            break
+    cap.release()
+    cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    q = mp.Queue()
+    p = mp.Process(target=run_detection, args=(q,))
+    p.start()
+    while True:
+        gray = q.get()
+        process_image(gray)
