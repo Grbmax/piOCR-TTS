@@ -1,6 +1,7 @@
 import cv2 
 import pytesseract
 import numpy as np
+import threading
 from pytesseract import Output
 from gtts import gTTS
 import subprocess
@@ -11,21 +12,10 @@ ret, img = camera.read()
 path = "images/"
 count =  1
 
-
 img_src = cv2.imread("images/1.jpg")
 
 def get_gray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-def thresholding(image):
-    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-
-def opening(image):
-    kernel = np.ones((5,5), np.uint8)
-    return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
-
-def canny(image):
-    return cv2.Canny(image, 100, 200)
 
 def blur_detect(image):
     return cv2.Laplacian(image, cv2.CV_64F).var()
