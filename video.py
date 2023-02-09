@@ -1,13 +1,18 @@
-import cv2
+import cv2 
 import pytesseract
 import numpy as np
 from pytesseract import Output
 from gtts import gTTS
-from time import sleep
-import os
-import pyglet
+import subprocess
 
-cap = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(0)
+ret, img = camera.read()
+
+path = "images/"
+count =  1
+
+
+img_src = cv2.imread("images/1.jpg")
 
 def get_gray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -25,46 +30,24 @@ def canny(image):
 def blur_detect(image):
     return cv2.Laplacian(image, cv2.CV_64F).var()
 
-def speak(text):
-    tts = gTTS(text=text, lang='en')
-    filename = "img_op.mp3"
-    tts.save(filename)
-    music = pyglet.media.load(filename, streaming=False)
-    music.play()
-    sleep(music.duration) #prevent from killing
-    os.remove(filename)
-
 while True:
-    ret, frame = cap.read()
-    gray = get_gray(frame)
-    bd = blur_detect(gray)
-    # thresh = thresholding(gray)
-    # opening = opening(gray)
-    # canny = canny(gray)
-    
-    if bd < 100:
-        print("Image too blurry, try again")
-        speak('Image too blurry, try again')
-    
-    while bd > 100:
-        t = pytesseract.image_to_string(gray) #You can use other images here which are being processed, eg. opening, canny, etc, based on your requirements.
-        if t and t.strip() != "":
-            print("Grayscale Image: ",t)
-            speak(t)
-        else : 
-            print("Nothing Detected in Grayscale Image")
-        
-        ret, frame = cap.read()
-        gray = get_gray(frame)
+    name = path + str(count)+".jpg"
+    ret, img = camera.read()
+    cv2.imshow("img", img)
+
+    if cv2.waitKey(10) & 0xFF == ord('c'):
+        cv2.imwrite(name, img)
+        print("Image Captured!")
+        #Add thresholding,canny, or opening filters as necessary
+        gray = get_gray(img_src) 
         bd = blur_detect(gray)
-        thresh = thresholding(gray)
-        opening = opening(gray)
-        canny = canny(gray)
-
-    cv2.imshow('frame', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'): #Press q to exit loop
-        break
-
-cap.release()
-cv2.destroyAllWindows()
-
+        print(bd)
+        cv2.imshow("img",gray)
+        t = pytesseract.image_to_string(img_src)
+        if bd < 100 or t and t.strip() == ""  :
+            subprocess.call(['espeak','Not Detected'])
+        if t and t.strip() != "":
+            print("Source Image: ",t)
+            subprocess.call(['espeak',t])            
+        if cv2.waitKey(0) & 0xFF == ord('q'):
+	        break
