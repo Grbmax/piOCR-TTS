@@ -3,7 +3,7 @@ Optical Character Recognition & Text to Speech with Blur Detection on Raspberry-
 
 1. Install Tesseract-OCR and gstreamer for pyglet
 ```
-sudo apt install tesseract-ocr gstreamer-1.0
+sudo apt install tesseract-ocr espeak
 ```
 2. Install Python dependencies
 ```
